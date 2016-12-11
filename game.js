@@ -142,166 +142,173 @@ function createScene()
 	scene.add(plane);
 	plane.receiveShadow = true;
 
-	var table = new THREE.Mesh(
+	var geometry = new THREE.CylinderGeometry( 1, 3, 3, 4 );
+	var material = new THREE.MeshBasicMaterial( {color: 0xffff00 , wireframe:true} );
+	var cylinder = new THREE.Mesh( geometry, material );
+	scene.add( cylinder );
 
-	  new THREE.CubeGeometry(
-		planeWidth * 1.05,	// this creates the feel of a billiards table, with a lining
-		planeHeight * 1.03,
-		100,				// an arbitrary depth, the camera can't see much of it anyway
-		planeQuality,
-		planeQuality,
-		1),
+	cylinder.position.z = 0;
 
-	  tableMaterial);
-	table.position.z = -51;	// we sink the table into the ground by 50 units. The extra 1 is so the plane can be seen
-	scene.add(table);
-	table.receiveShadow = true;
-
-	// // set up the sphere vars
-	// lower 'segment' and 'ring' values will increase performance
-	var radius = 5,
-		segments = 6,
-		rings = 6;
-
-	// // create the sphere's material
-	var sphereMaterial =
-	  new THREE.MeshLambertMaterial(
-		{
-		  color: 0xD43001
-		});
-
-	// Create a ball with sphere geometry
-	ball = new THREE.Mesh(
-
-	  new THREE.SphereGeometry(
-		radius,
-		segments,
-		rings),
-
-	  sphereMaterial);
-
-	// // add the sphere to the scene
-	scene.add(ball);
-
-	ball.position.x = 0;
-	ball.position.y = 0;
-	// set ball above the table surface
-	ball.position.z = radius;
-	ball.receiveShadow = true;
-    ball.castShadow = true;
-
-	// // set up the paddle vars
-	paddleWidth = 10;
-	paddleHeight = 30;
-	paddleDepth = 10;
-	paddleQuality = 1;
-
-	paddle1 = new THREE.Mesh(
-
-	  new THREE.CubeGeometry(
-		paddleWidth,
-		paddleHeight,
-		paddleDepth,
-		paddleQuality,
-		paddleQuality,
-		paddleQuality),
-
-	  paddle1Material);
-
-	// // add the sphere to the scene
-	scene.add(paddle1);
-	paddle1.receiveShadow = true;
-    paddle1.castShadow = true;
-
-	paddle2 = new THREE.Mesh(
-
-	  new THREE.CubeGeometry(
-		paddleWidth,
-		paddleHeight,
-		paddleDepth,
-		paddleQuality,
-		paddleQuality,
-		paddleQuality),
-
-	  paddle2Material);
-
-	// // add the sphere to the scene
-	scene.add(paddle2);
-	paddle2.receiveShadow = true;
-    paddle2.castShadow = true;
-
-	// set paddles on each side of the table
-	paddle1.position.x = -fieldWidth/2 + paddleWidth;
-	paddle2.position.x = fieldWidth/2 - paddleWidth;
-
-	// lift paddles over playing surface
-	paddle1.position.z = paddleDepth;
-	paddle2.position.z = paddleDepth;
-
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the left
-	for (var i = 0; i < 5; i++)
-	{
-		var backdrop = new THREE.Mesh(
-
-		  new THREE.CubeGeometry(
-		  30,
-		  30,
-		  300,
-		  1,
-		  1,
-		  1 ),
-
-		  pillarMaterial);
-
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = 230;
-		backdrop.position.z = -30;
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;
-		scene.add(backdrop);
-	}
-	// we iterate 10x (5x each side) to create pillars to show off shadows
-	// this is for the pillars on the right
-	for (var i = 0; i < 5; i++)
-	{
-		var backdrop = new THREE.Mesh(
-
-		  new THREE.CubeGeometry(
-		  30,
-		  30,
-		  300,
-		  1,
-		  1,
-		  1 ),
-
-		  pillarMaterial);
-
-		backdrop.position.x = -50 + i * 100;
-		backdrop.position.y = -230;
-		backdrop.position.z = -30;
-		backdrop.castShadow = true;
-		backdrop.receiveShadow = true;
-		scene.add(backdrop);
-	}
-
-	// finally we finish by adding a ground plane
-	// to show off pretty shadows
-	var ground = new THREE.Mesh(
-
-	  new THREE.CubeGeometry(
-	  1000,
-	  1000,
-	  3,
-	  1,
-	  1,
-	  1 ),
-
-	  groundMaterial);
-    // set ground to arbitrary z position to best show off shadowing
-	ground.position.z = -132;
-	ground.receiveShadow = true;
-	scene.add(ground);
+	// var table = new THREE.Mesh(
+	//
+	//   new THREE.CubeGeometry(
+	// 	planeWidth * 1.05,	// this creates the feel of a billiards table, with a lining
+	// 	planeHeight * 1.03,
+	// 	100,				// an arbitrary depth, the camera can't see much of it anyway
+	// 	planeQuality,
+	// 	planeQuality,
+	// 	1),
+	//
+	//   tableMaterial);
+	// table.position.z = -51;	// we sink the table into the ground by 50 units. The extra 1 is so the plane can be seen
+	// scene.add(table);
+	// table.receiveShadow = true;
+	//
+	// // // set up the sphere vars
+	// // lower 'segment' and 'ring' values will increase performance
+	// var radius = 5,
+	// 	segments = 6,
+	// 	rings = 6;
+	//
+	// // // create the sphere's material
+	// var sphereMaterial =
+	//   new THREE.MeshLambertMaterial(
+	// 	{
+	// 	  color: 0xD43001
+	// 	});
+	//
+	// // Create a ball with sphere geometry
+	// ball = new THREE.Mesh(
+	//
+	//   new THREE.SphereGeometry(
+	// 	radius,
+	// 	segments,
+	// 	rings),
+	//
+	//   sphereMaterial);
+	//
+	// // // add the sphere to the scene
+	// scene.add(ball);
+	//
+	// ball.position.x = 0;
+	// ball.position.y = 0;
+	// // set ball above the table surface
+	// ball.position.z = radius;
+	// ball.receiveShadow = true;
+  //   ball.castShadow = true;
+	//
+	// // // set up the paddle vars
+	// paddleWidth = 10;
+	// paddleHeight = 30;
+	// paddleDepth = 10;
+	// paddleQuality = 1;
+	//
+	// paddle1 = new THREE.Mesh(
+	//
+	//   new THREE.CubeGeometry(
+	// 	paddleWidth,
+	// 	paddleHeight,
+	// 	paddleDepth,
+	// 	paddleQuality,
+	// 	paddleQuality,
+	// 	paddleQuality),
+	//
+	//   paddle1Material);
+	//
+	// // // add the sphere to the scene
+	// scene.add(paddle1);
+	// paddle1.receiveShadow = true;
+  //   paddle1.castShadow = true;
+	//
+	// paddle2 = new THREE.Mesh(
+	//
+	//   new THREE.CubeGeometry(
+	// 	paddleWidth,
+	// 	paddleHeight,
+	// 	paddleDepth,
+	// 	paddleQuality,
+	// 	paddleQuality,
+	// 	paddleQuality),
+	//
+	//   paddle2Material);
+	//
+	// // // add the sphere to the scene
+	// scene.add(paddle2);
+	// paddle2.receiveShadow = true;
+  //   paddle2.castShadow = true;
+	//
+	// // set paddles on each side of the table
+	// paddle1.position.x = -fieldWidth/2 + paddleWidth;
+	// paddle2.position.x = fieldWidth/2 - paddleWidth;
+	//
+	// // lift paddles over playing surface
+	// paddle1.position.z = paddleDepth;
+	// paddle2.position.z = paddleDepth;
+	//
+	// // we iterate 10x (5x each side) to create pillars to show off shadows
+	// // this is for the pillars on the left
+	// for (var i = 0; i < 5; i++)
+	// {
+	// 	var backdrop = new THREE.Mesh(
+	//
+	// 	  new THREE.CubeGeometry(
+	// 	  30,
+	// 	  30,
+	// 	  300,
+	// 	  1,
+	// 	  1,
+	// 	  1 ),
+	//
+	// 	  pillarMaterial);
+	//
+	// 	backdrop.position.x = -50 + i * 100;
+	// 	backdrop.position.y = 230;
+	// 	backdrop.position.z = -30;
+	// 	backdrop.castShadow = true;
+	// 	backdrop.receiveShadow = true;
+	// 	scene.add(backdrop);
+	// }
+	// // we iterate 10x (5x each side) to create pillars to show off shadows
+	// // this is for the pillars on the right
+	// for (var i = 0; i < 5; i++)
+	// {
+	// 	var backdrop = new THREE.Mesh(
+	//
+	// 	  new THREE.CubeGeometry(
+	// 	  30,
+	// 	  30,
+	// 	  300,
+	// 	  1,
+	// 	  1,
+	// 	  1 ),
+	//
+	// 	  pillarMaterial);
+	//
+	// 	backdrop.position.x = -50 + i * 100;
+	// 	backdrop.position.y = -230;
+	// 	backdrop.position.z = -30;
+	// 	backdrop.castShadow = true;
+	// 	backdrop.receiveShadow = true;
+	// 	scene.add(backdrop);
+	// }
+	//
+	// // finally we finish by adding a ground plane
+	// // to show off pretty shadows
+	// var ground = new THREE.Mesh(
+	//
+	//   new THREE.CubeGeometry(
+	//   1000,
+	//   1000,
+	//   3,
+	//   1,
+	//   1,
+	//   1 ),
+	//
+	//   groundMaterial);
+  //   // set ground to arbitrary z position to best show off shadowing
+	// ground.position.z = -132;
+	// ground.receiveShadow = true;
+	// scene.add(ground);
 
 	// // create a point light
 	pointLight =
@@ -335,11 +342,11 @@ function draw()
 	// loop draw function call
 	requestAnimationFrame(draw);
 
-	ballPhysics();
-	paddlePhysics();
-	cameraPhysics();
-	playerPaddleMovement();
-	opponentPaddleMovement();
+	// ballPhysics();
+	// paddlePhysics();
+	// cameraPhysics();
+	// playerPaddleMovement();
+	// opponentPaddleMovement();
 }
 
 function ballPhysics()
